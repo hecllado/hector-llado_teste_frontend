@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <meta charset="utf-8">
+    <title>App de Corridas</title>
+  </head>
+  <body>
+    <div ng-controller="driverController" style="float: left; padding: 30px;">
+      <h2>Motoristas cadastrados</h2>
+      <a href ng-click="toggleDriverForm()">Adicionar motorista...</a>
+      <ul>
+        <li ng-repeat="driver in driver_list track by $index">
+          <a href ng-click="editDriver(driver, $index)">{{driver.name}}</a>
+        </li>
+      </ul>
+      <div style="width: 300px" ng-if="show_driver_form" ng-form="driver_form">
+        <h4 ng-if="invalid_form_driver">Preencha todos os campos!</h4>
+        <form ng-submit="submit(driver_form)" novalidate>
+          <div style="padding: 10px;">
+            <label>Nome</label>
+            <input type="text" ng-model="driver_model.name" ng-required="true">
+          </div>
+          <div style="padding: 10px;">
+            <label>Sexo</label>
+            <select ng-options="genre as genre for genre in ['Masculino', 'Feminino']" ng-model="driver_model.genre" ng-required="true"></select>
+          </div>
+          <div style="padding: 10px;">
+            <label>CPF</label>
+            <input type="text" ng-model="driver_model.cpf" ng-required="true">
+          </div>
+          <div style="padding: 10px;">
+            <label>Data de Nascimento</label>
+            <input type="date" ng-model="driver_model.bday" ng-required="true">
+          </div>
+          <div style="padding: 10px;">
+            <label>Modelo do carro</label>
+            <input type="text" ng-model="driver_model.car" ng-required="true">
+          </div>
+          <div style="padding: 10px;">
+            <label>Ativo?</label>
+            <input type="checkbox" ng-model="driver_model.active">
+          </div>
+          <div style="padding: 10px;">
+            <button type="submit">Salvar</button>
+            <button type="button" ng-click="cancel()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div ng-controller="customerController" style="float: left; padding: 30px;">
+      <h2>Clientes cadastrados</h2>
+      <a href ng-click="toggleCustomerForm()">Adicionar cliente...</a>
+      <ul>
+        <li ng-repeat="customer in customer_list track by $index">
+          <a href ng-click="editCustomer(customer, $index)">{{customer.name}}</a>
+        </li>
+      </ul>
+      <div style="width: 300px" ng-if="show_customer_form" ng-form="customer_form">
+        <h4 ng-if="invalid_form_customer">Preencha todos os campos!</h4>
+        <form ng-submit="submit(customer_form)" novalidate>
+          <div style="padding: 10px;">
+            <label>Nome</label>
+            <input type="text" ng-model="customer_model.name" ng-required="true">
+          </div>
+          <div style="padding: 10px;">
+            <label>Sexo</label>
+            <select ng-options="genre as genre for genre in ['Masculino', 'Feminino']" ng-model="customer_model.genre" ng-required="true"></select>
+          </div>
+          <div style="padding: 10px;">
+            <label>CPF</label>
+            <input type="text" ng-model="customer_model.cpf" ng-required="true">
+          </div>
+          <div style="padding: 10px;">
+            <label>Data de Nascimento</label>
+            <input type="date" ng-model="customer_model.bday" ng-required="true">
+          </div>
+          <div style="padding: 10px;">
+            <button type="submit">Salvar</button>
+            <button type="button" ng-click="cancel()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div ng-controller="runController" style="float: left; padding: 30px;">
+      <h2>Corridas cadastradas</h2>
+      <a href ng-click="toggleRunForm()">Adicionar corrida...</a>
+      <ul>
+        <li ng-repeat="run in run_list track by $index">
+          <a href ng-click="editRun(run, $index)">{{run.driver.name}} - {{run.customer.name}} : R$ {{run.amount}}</a>
+        </li>
+      </ul>
+      <div style="width: 300px" ng-if="show_run_form" ng-form="run_form">
+        <h4 ng-if="invalid_form_run">Preencha todos os campos!</h4>
+        <form ng-submit="submit(run_form)" novalidate>
+          <div style="padding: 10px;">
+            <label>Motorista</label>
+            <select ng-options="driver as driver.name for driver in driver_list | filter:{ active: true }" ng-model="run_model.driver" ng-required="true"></select>
+          </div>
+            <div style="padding: 10px;">
+              <label>Cliente</label>
+              <select ng-options="customer as customer.name for customer in customer_list" ng-model="run_model.customer" ng-required="true"></select>
+            </div>
+          <div style="padding: 10px;">
+            <label>Valor</label>
+            <input type="number" step="0.01" ng-model="run_model.amount" ng-required="true">
+          </div>
+          <div style="padding: 10px;">
+            <button type="submit">Salvar</button>
+            <button type="button" ng-click="cancel()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="app.js"></script>
+
+  </body>
+</html>
